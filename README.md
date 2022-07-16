@@ -24,7 +24,7 @@
   
   ## Installation
 
-  To install run ```npm init``` then ```npm install inquirer``` then ```npm install jest``` in the terminal.
+  To install run ```npm i``` in the terminal.
 
   ## Usage
 
