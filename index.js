@@ -1,20 +1,3 @@
-// GIVEN a command-line application that accepts user input
-// WHEN I am prompted for my team members and their information
-// THEN an HTML file is generated that displays a nicely formatted team roster based on user input
-// WHEN I click on an email address in the HTML
-// THEN my default email program opens and populates the TO field of the email with the address
-// WHEN I click on the GitHub username
-// THEN that GitHub profile opens in a new tab
-// WHEN I start the application
-// THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
-// WHEN I enter the team manager’s name, employee ID, email address, and office number
-// THEN I am presented with a menu with the option to add an engineer or an intern or to finish building my team
-// WHEN I select the engineer option
-// THEN I am prompted to enter the engineer’s name, ID, email, and GitHub username, and I am taken back to the menu
-// WHEN I select the intern option
-// THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
-// WHEN I decide to finish building my team
-// THEN I exit the application, and the HTML is generated
 
 const fs = require('fs');
 const inquirer = require('inquirer');
@@ -31,21 +14,25 @@ function teamManager() {
       type: 'input',
       name: 'manName',
       message: 'What is the team manager\'s name?',
+      default: 'Jimmy',
     },
     {
       type: 'input',
       name: 'manId',
       message: 'What is the team manager\'s id?',
+      default: '69',
     },
     {
       type: 'input',
       name: 'manEmail',
       message: "What is the team manager\'s email?",
+      default: 'Jimmy@aol.com',
     },
     {
       type: 'input',
       name: 'manOfficeNum',
       message: 'What is the team manager\'s office number?',
+      default: '001',
     },
   ]).then(manAnswers => {
     const manager = new Manager(manAnswers.manName, manAnswers.manId, manAnswers.manEmail, manAnswers.manOfficeNum);
@@ -68,16 +55,19 @@ function nextQuestion() {
       type: 'input',
       name: 'name',
       message: 'What is their name?',
+      
     },
     {
       type: 'input',
       name: 'id',
       message: 'What is their id?',
+      
     },
     {
       type: 'input',
       name: 'email',
       message: "What is their email?",
+      
     },
     {
       type: 'input',
@@ -122,7 +112,7 @@ function manCard(manager) {
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">id: ${manager.id}</li>
-        <li class="list-group-item">email: ${manager.email}</li>
+        <li class="list-group-item"><a href="mailto: ${manager.email}" target="_blank">${manager.email}</a></li>
         <li class="list-group-item">office number: ${manager.officeNumber}</li>
       </ul>
     </div>`
@@ -139,8 +129,8 @@ function cards(member) {
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">id: ${member.id}</li>
-            <li class="list-group-item">email: ${member.email}</li>
-            <li class="list-group-item">github: ${member.github}</li>
+            <li class="list-group-item"><a href="mailto: ${member.email}" target="_blank">${member.email}</a></li>
+            <li class="list-group-item"><a href="github.com/${member.github}" target="_blank">github.com/${member.github}</a></li>
           </ul>
         </div>`;
 
@@ -153,13 +143,12 @@ function cards(member) {
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">id: ${member.id}</li>
-          <li class="list-group-item">email: ${member.email}</li>
+          <li class="list-group-item"><a href="mailto: ${member.email}" target="_blank">${member.email}</a></li>
           <li class="list-group-item">school: ${member.school}</li>
         </ul>
       </div>`;
   }  
 }
-
 function makeHTML () {
 return`
 <!DOCTYPE html>
@@ -190,7 +179,7 @@ return`
 
 function createCards() {
   let allCards = cards(employees[1]);
-  for (let i = 1; i < employees.length; i++) {
+  for (let i = 2; i < employees.length; i++) {
     allCards = allCards + cards(employees[i]);
   }
   // console.log(allCards)

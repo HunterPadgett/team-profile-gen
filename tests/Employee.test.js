@@ -13,11 +13,11 @@ describe("Employee", () => {
 
   describe("getters", () => {
     it("should return an object containing personName, id, email, role", () => {
-      const met = new Employee('Jim', 15, "hp@gmail.com", 'Employee');
+      const met = new Employee('Jim', 15, `hp@gmail.com`, 'Employee');
 
       expect(met.getName()).toEqual('Jim');
       expect(met.getId()).toEqual(15);
-      expect(met.email).toEqual("hp@gmail.com");
+      expect(met.email).toEqual(`hp@gmail.com`);
       expect(met.getRole()).toEqual('Employee');
     });
   });
