@@ -11,8 +11,9 @@
   This a Node.js command-line application that takes in information about employees on a software engineering team and generates an HTML webpage that displays summaries for each person
 
   Below is a link to a video demonstrating how to use the application to generate an example README.md file:
-  
 
+  https://watch.screencastify.com/v/zMLEcaDtkTh3ktxtH4N7
+  
   ## Table of Contents
 
   - [Installation](#installation)
@@ -24,11 +25,11 @@
   
   ## Installation
 
-  To install run ```npm i``` in the terminal.
+  To install all dependencies run ```npm i``` in the terminal.
 
   ## Usage
 
-  Once inquirer and jest are installed you can run ```node index.js``` in the terminal at the root level of the project. This should promt the questions for the use to answer.
+  Once dependencies are installed you can run ```node index.js``` in the terminal at the root level of the project. This should promt the questions for the user to answer.
 
   ## How to Contribute
 
@@ -36,7 +37,7 @@
 
   ## Tests
 
-  To run a test enter run ```npm test``` in the command line.
+  To run tests enter run ```npm test``` in the command line.
 
   ## Questions
 
