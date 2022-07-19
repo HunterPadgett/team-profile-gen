@@ -154,7 +154,7 @@ function cards(member) {
         <ul class="list-group list-group-flush">
           <li class="list-group-item">id: ${member.id}</li>
           <li class="list-group-item">email: ${member.email}</li>
-          <li class="list-group-item">github: ${member.school}</li>
+          <li class="list-group-item">school: ${member.school}</li>
         </ul>
       </div>`;
   }  
@@ -190,7 +190,7 @@ return`
 
 function createCards() {
   let allCards = cards(employees[1]);
-  for (let i = 2; i < employees.length; i++) {
+  for (let i = 1; i < employees.length; i++) {
     allCards = allCards + cards(employees[i]);
   }
   // console.log(allCards)
