@@ -188,7 +188,7 @@ function createCards() {
 
 const writeHTML = function() {
   const newHTML = makeHTML(cards)
-  fs.writeFile('./dist/index.html', newHTML, (error) => 
+  fs.writeFile('./index.html', newHTML, (error) => 
   error ? console.log(error) : console.log('INDEX HTML MADE')
   );
 };
