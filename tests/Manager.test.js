@@ -18,7 +18,7 @@ describe("Manager", () => {
 
       expect(met.getName()).toEqual('Jim');
       expect(met.getId()).toEqual(15);
-      expect(met.email).toEqual('hp@gmail.com');
+      expect(met.getEmail()).toEqual('hp@gmail.com');
       expect(met.getOfficeNumber()).toEqual(2);
       expect(met.getRole()).toEqual('Manager');
     });

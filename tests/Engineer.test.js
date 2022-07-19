@@ -18,8 +18,8 @@ describe("Engineer", () => {
 
       expect(met.getName()).toEqual('Jim');
       expect(met.getId()).toEqual(15);
-      expect(met.email).toEqual('hp@gmail.com');
-      expect(met.github).toEqual('jimbob');
+      expect(met.getEmail()).toEqual('hp@gmail.com');
+      expect(met.getGithub()).toEqual('jimbob');
       expect(met.getRole()).toEqual('Engineer');
     });
   });

@@ -130,7 +130,7 @@ function cards(member) {
           <ul class="list-group list-group-flush">
             <li class="list-group-item">id: ${member.id}</li>
             <li class="list-group-item"><a href="mailto: ${member.email}" target="_blank">${member.email}</a></li>
-            <li class="list-group-item"><a href="github.com/${member.github}" target="_blank">github.com/${member.github}</a></li>
+            <li class="list-group-item"><a href="https://github.com/${member.github}" target="_blank">github.com/${member.github}</a></li>
           </ul>
         </div>`;
 
