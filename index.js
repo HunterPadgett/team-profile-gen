@@ -18,10 +18,12 @@
 
 const fs = require('fs');
 const inquirer = require('inquirer');
-// const Employee = require("./lib/Employee");
+const InputPrompt = require('inquirer/lib/prompts/input');
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
+
+let employees = [];
 
 function teamManager() {
   inquirer.prompt([
@@ -33,24 +35,26 @@ function teamManager() {
     {
       type: 'input',
       name: 'manId',
-      message: 'What is the team manger\'s id?',
+      message: 'What is the team manager\'s id?',
     },
     {
       type: 'input',
       name: 'manEmail',
-      message: "What is the team manger\'s email?",
+      message: "What is the team manager\'s email?",
     },
     {
       type: 'input',
       name: 'manOfficeNum',
-      message: 'What is the team manger\'s office number?',
+      message: 'What is the team manager\'s office number?',
     },
   ]).then(manAnswers => {
-    manager = new Manager(manAnswers.manName, manAnswers.manId, manAnswers.manEmail, manAnswers.manOfficeNum);
+    const manager = new Manager(manAnswers.manName, manAnswers.manId, manAnswers.manEmail, manAnswers.manOfficeNum);
     // console.log(manager)
+    employees.push(manager)
     nextQuestion();
+    
   });
-}
+};
 
 function nextQuestion() {
   inquirer.prompt([
@@ -87,36 +91,78 @@ function nextQuestion() {
       message: "What school did they attend?",
       when: (role) => role.member === 'Intern'
     },
-    {
-      type: 'list',
-      name: 'anotherOne',
-      message: "Would you like to add another member?",
-      choices: ["Yes", "No"]
-    },
   ]).then(answers => {
     
       if (answers.member === 'Engineer') {
-        engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-        console.log(engineer)
+        const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+        // console.log(engineer)
+        employees.push(engineer)
         nextQuestion();
         
       } else if (answers.member === 'Intern') {
-        intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-        console.log(intern)
+        const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+        // console.log(intern)
+        employees.push(intern)
         nextQuestion();
-        
-      } else if (answers.anotherOne === "Yes") {
-        console.log('run it back')
-        nextQuestion();  
-
-      } else {
-        console.log('no mas')
+        // console.log(employees)
+      } else if (answers.member === "I don't want to add any more team members") {
+        // console.log(employees)
+        writeHTML();
+        // importCards(employees);
       }
   });
 };
 
-const makeHTML = ({member, id, name, github, school, email, manName, manId, manEmail, manOfficeNum}) =>
-`<!DOCTYPE html>
+function manCard(manager) {
+  return `
+    <div class="card m-5 shadow" style="width: 25rem;">
+      <div class="bg-primary text-white" >
+        <h5 class="card-title m-2">${manager.personName}</h5>
+        <h5 class="card-text m-2">Manager</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">id: ${manager.id}</li>
+        <li class="list-group-item">email: ${manager.email}</li>
+        <li class="list-group-item">office number: ${manager.officeNumber}</li>
+      </ul>
+    </div>`
+};
+
+function cards(member) {
+  switch (member.getRole()) {
+    case "Engineer":
+      return `
+        <div class="card m-5 shadow" style="width: 25rem;">
+          <div class="bg-primary text-white" >
+            <h5 class="card-title m-2">${member.personName}</h5>
+            <h5 class="card-text m-2">Engineer</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">id: ${member.id}</li>
+            <li class="list-group-item">email: ${member.email}</li>
+            <li class="list-group-item">github: ${member.github}</li>
+          </ul>
+        </div>`;
+
+    case "Intern" :
+      return `
+      <div class="card m-5 shadow" style="width: 25rem;">
+        <div class="bg-primary text-white" >
+          <h5 class="card-title m-2">${member.personName}</h5>
+          <h5 class="card-text m-2">Intern</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">id: ${member.id}</li>
+          <li class="list-group-item">email: ${member.email}</li>
+          <li class="list-group-item">github: ${member.school}</li>
+        </ul>
+      </div>`;
+  }  
+}
+
+function makeHTML () {
+return`
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -133,77 +179,29 @@ const makeHTML = ({member, id, name, github, school, email, manName, manId, manE
   </div>
 
   <div class="d-flex flex-wrap justify-content-around mt-3">
-    <div class="card m-5 shadow" style="width: 25rem;">
-      <div class="bg-primary text-white" >
-        <h5 class="card-title m-2">${manName}</h5>
-        <h5 class="card-text m-2">Manager</h5>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">${manId}</li>
-        <li class="list-group-item">${manEmail}</li>
-        <li class="list-group-item">${manOfficeNum}</li>
-      </ul>
-    </div>
+    ${manCard(employees[0])}
 
-    <div class="card m-5 shadow" style="width: 25rem;">
-      <div class="bg-primary text-white" >
-        <h5 class="card-title m-2">name </h5>
-        <h5 class="card-text m-2">job title</h5>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">An item</li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">A third item</li>
-      </ul>
-    </div>
-
-    <div class="card m-5 shadow" style="width: 25rem;">
-      <div class="bg-primary text-white" >
-        <h5 class="card-title m-2">name </h5>
-        <h5 class="card-text m-2">job title</h5>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">An item</li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">A third item</li>
-      </ul>
-    </div>
-
-    <div class="card m-5 shadow" style="width: 25rem;">
-      <div class="bg-primary text-white" >
-        <h5 class="card-title m-2">name </h5>
-        <h5 class="card-text m-2">job title</h5>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">An item</li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">A third item</li>
-      </ul>
-    </div>
-
-    <div class="card m-5 shadow" style="width: 25rem;">
-      <div class="bg-primary text-white" >
-        <h5 class="card-title m-2">name </h5>
-        <h5 class="card-text m-2">job title</h5>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">An item</li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">A third item</li>
-      </ul>
-    </div>
+    ${createCards()}
   </div>
 
 </body>
 </html>`;
+}
 
-// const init = () => {
-//   teamManager()
-//     .then((answers) => fs.writeFileSync('index.html', makeHTML(answers)))
-//     .then(() => console.log('Successfully wrote to index.html'))
-//     .catch((err) => console.error(err));
-// };
+function createCards() {
+  let allCards = cards(employees[1]);
+  for (let i = 2; i < employees.length; i++) {
+    allCards = allCards + cards(employees[i]);
+  }
+  // console.log(allCards)
+  return allCards;
+}
 
+const writeHTML = function() {
+  const newHTML = makeHTML(cards)
+  fs.writeFile('./dist/index.html', newHTML, (error) => 
+  error ? console.log(error) : console.log('INDEX HTML MADE')
+  );
+};
 
 teamManager();
-// init();
